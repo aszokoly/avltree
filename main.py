@@ -1,35 +1,8 @@
 from friendsbalt.acs import OrderedMap, StringDiff
 from fsspec import filesystem
 from datetime import datetime
-# make a version control system
-#store the verison history
-#do previous for multiple files
-#restore any previous verison
-#show  a log of any file
-# figure out ordered map, figure out how to do this with one file, save a version, compute difference between versions and store that vallue in a map, value will be the string diff
-# built in function on time class, how many seconds time stamp, order by time
 
-x = OrderedMap()
-a = "Hello\napple"
-b = "Hello\napple!" #updated version
 
-#Compute diff of a and b.
-diff = StringDiff(a,b)
-
-# Show changes
-print(StringDiff.raw_diff(a,b))
-
-# Construct b from a and the diff.
-print(StringDiff.apply_diff(a, diff))
-
-a = 'Hello\nWorld'
-b = 'Hello\nWorld!'
-c = "Hello\nWorld!!"
-d = "Hello\nWorld!!!"
-diff1= StringDiff(a,b)
-diff2  = StringDiff(b, c)
-diff3 = StringDiff(c,d)
-print(StringDiff.raw_diff(a,b))
 
 class filesystem:
     def time(timestamp):
@@ -39,36 +12,37 @@ class filesystem:
         return timestamp
     
 
-class VersionFile(filepath, Version_map):
-    def save():
-        # 1. read the file from the disc (google - Mr.Hammer said we could search it up)
-        diffs = []
-        file = #something
-        a = original.read()
+class VersionFile:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.versions = OrderedMap()
+        file_string = self.read_from_file()
+        initial_diff = StringDiff("", file_string)
+        timestamp = int(round(curr_dt.timestamp()))
+        curr_dt = datetime.now()
+        self.versions[timestamp] = initial_diff
+        return timestamp
+    
+    def save(self):
+        previous_version = self.build_latest()
+        current_version = self.read_from_file()
+
+    def read_from_file(self):
+        with open(self.file_path, 'r') as file:
+            content = file.read()
+        return (content)
+    def build_latest(self):
+        current = ""
+        for _, diff in self.versions:
+            StringDiff.apply_diff(current, diff)
+
+        return current
         
-        # 2. compute the latest version from the map
-        b = current_version.read()
-        # 3. compute the diff between 1 and 2
-        diff1 = StringDiff(a,b)
+
+
+ 
         # 4. add the diff to version_map
-        diffs.append(diff1)
+   
 
-    def build_latest():
-        # starting from empty string, succesively apply diffs in version_map
-        version_map = ''
-        version
-
-
-
-    def save(timestamp, versions, diff1, diff2, diff3):
-        om = OrderedMap
-        om.append(versions)
-        while True:
-            input("diff1")
-            if input == 'save':
-                om.append(diff1)
-            elif input == 'restore':
-                om.append(diff2)
-            elif input 
-
-
+x = VersionFile("example.txt")
+print(x.read_from_file())
